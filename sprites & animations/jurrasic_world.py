@@ -62,7 +62,7 @@ class Dinosaur:
 				self.window.blit(self.idle_left[i],(self.x,self.y))
 				pygame.display.update()
 				pygame.time.delay(50)
-	def jump(self,right):
+	def jump_1(self,right):
 		if right==True:
 			for i in range(0,int(self.jump_count/2)):
 				y=self.y-8
@@ -75,7 +75,21 @@ class Dinosaur:
 				self.window.blit(self.jump_right[i],(self.x,y))
 				pygame.display.update()	
 				pygame.time.delay(30)
-			pygame.time.delay(100)
+		else:
+			for i in range(0,int(self.jump_count/2)):
+					y=self.y-8
+					x=self.x-4
+
+					if x<0:
+						break;
+					self.x=x;
+					self.window.blit(self.back_ground,(0,0))
+					self.window.blit(self.jump_left[i],(self.x,y))
+					pygame.display.update()	
+					pygame.time.delay(30)
+			
+	def jump_2(self,right):
+		if right==True:
 			for i in range(int(self.jump_count/2),self.jump_count):
 				y=self.y+8
 				x=self.x+4
@@ -89,18 +103,6 @@ class Dinosaur:
 				pygame.time.delay(30)
 
 		else:
-			for i in range(0,int(self.jump_count/2)):
-				y=self.y-8
-				x=self.x-4
-
-				if x<0:
-					break;
-				self.x=x;
-				self.window.blit(self.back_ground,(0,0))
-				self.window.blit(self.jump_left[i],(self.x,y))
-				pygame.display.update()	
-				pygame.time.delay(30)
-			pygame.time.delay(100)
 			for i in range(int(self.jump_count/2),self.jump_count):
 				y=self.y+8
 				x=self.x-4
@@ -110,7 +112,8 @@ class Dinosaur:
 				self.window.blit(self.back_ground,(0,0))
 				self.window.blit(self.jump_left[i],(self.x,y))
 				pygame.display.update()
-				pygame.time.delay(30)	
+				pygame.time.delay(30)
+				
 	def move_left(self):
 		for i in range(0,self.move_count):
 			self.x-=2
@@ -164,9 +167,11 @@ class Dinosaur:
 				p_direction=1
 			elif pressed_space==True:
 				if p_direction==True:
-					self.jump(True)
+					self.jump_1(True)
+					self.jump_2(True)
 				else:
-					self.jump(False)
+					self.jump_1(False)
+					self.jump_2(False)
 				pressed_space=False
 			else:
 				if p_direction==1:
