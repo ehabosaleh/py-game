@@ -60,7 +60,7 @@ class AdventureGirl():
 		self.idle_right=[pygame.transform.scale(image,(150,200)) for image in idle_r]
 		self.window=win
 		self.width,self.height=pygame.display.get_surface().get_size()
-		self.back_ground=pygame.image.load("BG.png")
+		
 		
 	def move_left(self):
 		
@@ -70,7 +70,7 @@ class AdventureGirl():
 				self.x=0
 				break	
 			pygame.time.delay(20)
-			self.window.blit(self.back_ground,(0,0))
+			self.window.blit(pygame.display.get_surface(),(0,0))
 			self.window.blit(self.walk_left[i],(self.x,self.y))
 			pygame.display.update()
 			
@@ -82,7 +82,7 @@ class AdventureGirl():
 				self.x=self.width-201
 				break;
 			pygame.time.delay(20)
-			self.window.blit(self.back_ground,(0,0))
+			self.window.blit(pygame.display.get_surface(),(0,0))
 			self.window.blit(self.walk_right[i],(self.x,self.y))
 			pygame.display.update()
 		
@@ -90,23 +90,23 @@ class AdventureGirl():
 		
 		if right==True:
 			for i in range(0,self.idle_count):
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.idle_right[i],(self.x,self.y))
 				pygame.display.update()
 				pygame.time.delay(50)
 			for i in range(self.idle_count-1,-1):
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.idle_right[i],(self.x,self.y))
 				pygame.display.update()
 				pygame.time.delay(50)
 		else:
 			for i in range(0,self.idle_count):
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.idle_left[i],(self.x,self.y))
 				pygame.display.update()
 				pygame.time.delay(50)
 			for i in range(self.idle_count-1,-1):
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.idle_left[i],(self.x,self.y))
 				pygame.display.update()
 				pygame.time.delay(50)
@@ -121,7 +121,7 @@ class AdventureGirl():
 				if x>self.width-201:
 					break;
 				self.x=x;
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.jump_right[i],(self.x,y))
 				pygame.display.update()	
 				pygame.time.delay(50)
@@ -133,7 +133,7 @@ class AdventureGirl():
 					if x<0:
 						break;
 					self.x=x;
-					self.window.blit(self.back_ground,(0,0))
+					self.window.blit(pygame.display.get_surface(),(0,0))
 					self.window.blit(self.jump_left[i],(self.x,y))
 					pygame.display.update()	
 					pygame.time.delay(50)
@@ -147,7 +147,7 @@ class AdventureGirl():
 				if x>self.width-201:
 					break;
 				self.x=x;
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.jump_right[i],(self.x,y))
 				pygame.display.update()
 				pygame.time.delay(50)
@@ -159,20 +159,20 @@ class AdventureGirl():
 				if x<0:
 					break;
 				self.x=x; 
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.jump_left[i],(self.x,y))
 				pygame.display.update()
 				pygame.time.delay(50)
 	def shoot(self,right):
 		if right==True:
 			for i in range (0,self.shoot_count):
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.shoot_right[i],(self.x,self.y))
 				pygame.display.update()
 				pygame.time.delay(50)
 		else:
 			for i in range(self.shoot_count,-1):
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.shoot_left[i],(self.x,self.x))
 				pygame.display.update()
 				pygame.time.delay(50)
@@ -180,13 +180,13 @@ class AdventureGirl():
 	def melee (self,right):
 		if right==True:
 			for i in range(0,self.melee_count):
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.melee_right[i],(self.x,self.y))
 				pygame.display.update()
 				pygame.time.delay(50)
 		else:
 			for  i in range(0,range.melee_count):
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.melee_left[i],(self.x,self.y))
 				pygame.display.update()
 				pygame.time.delay(50)
@@ -197,7 +197,7 @@ class AdventureGirl():
 				if x>self.width-201:
 					break;
 				self.x=x
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.slide_right[i],(self.x,self.y))
 				pygame.display.update()
 				pygame.time.delay(50)
@@ -207,15 +207,8 @@ class AdventureGirl():
 				if x<0:
 					break;
 				self.x=x
-				self.window.blit(self.back_ground,(0,0))
+				self.window.blit(pygame.display.get_surface(),(0,0))
 				self.window.blit(self.slide_right[i],(self.x,self.y))
 				pygame.display.update()
 				pygame.time.delay(50)
 				
-class Enemey(AdentureGirl):
-	
-
-pygame.init()				
-window=pygame.display.set_mode((500,500))				
-player=AdventureGirl(0,300,window)
-player.melee(True)
