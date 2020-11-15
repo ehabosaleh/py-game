@@ -159,6 +159,7 @@ class Dinosaur:
 						pressed_left = False
 					elif event.key == pygame.K_RIGHT:     
 						pressed_right = False
+				
 			if pressed_left == True:
 				self.move_left()
 				p_direction=0;

@@ -20,7 +20,7 @@ class Enemy():
 		self.attack(window)
 		self.width,self.height=pygame.display.get_surface().get_size()
 	def attack(self,window):
-		while self.hit=False:
+		while self.hit==False:
 			direction= random.choose(["left","right"])
 			if direction=="left":
 				for i in range(0,self.walk_count):
