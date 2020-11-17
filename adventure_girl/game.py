@@ -2,8 +2,8 @@ import pygame
 from adventure_girl import AdventureGirl
 from  bullet import Bullet
 from enemy import Enemy
-
-class Game(AdventureGirl):
+import threading
+class Game(AdventureGirl,Enemy):
 	
 	def __init__(self):
 		self.width, self.height= 1024,500
@@ -11,8 +11,17 @@ class Game(AdventureGirl):
 		self.window=pygame.display.set_mode((self.width,self.height))
 		self.back_ground=pygame.image.load('BG.png')
 		self.window.blit(self.back_ground,(0,0))
-		super().__init__(0,self.height-200)
-		self.listen()
+		pygame.display.update()
+		AdventureGirl.__init__(self,0,self.height-270)
+		Enemy.__init__(self,self.width-150,self.height-270)
+		t1=threading.Thread(target=self.listen)
+		t2=threading.Thread(target=self.attack)
+		t1.start()
+		t2.start()
+		t1.join()
+		t2.join()
+
+		
 	def listen(self):
 		run=True
 		pressed_left=False
@@ -23,10 +32,12 @@ class Game(AdventureGirl):
 		pressed_melee=False
 		p_direction=True
 		while run:
+			
 			for event in pygame.event.get():
 				if event.type==pygame.QUIT:
+
 					run=False
-					break
+					break;
 				elif event.type==pygame.KEYDOWN:
 					if event.key==pygame.K_LEFT:
 						pressed_left=True
@@ -52,43 +63,31 @@ class Game(AdventureGirl):
 					elif event.key==pygame.K_z:
 						pressed_slide=False
 					elif event.key==pygame.K_RCTRL:
-						perssed_melee=False
-				if pressed_left==True:
-					
-					self.move_left()
-					p_direction=False
+						pressed_melee=False
+			if pressed_left==True:	
+				self.move_left()
+				p_direction=False
 				
-				elif pressed_right==True:
-					self.move_right()
-					p_direction=True
-				elif pressed_shoot==True:
-					if p_direction==True:
-						self.shoot(True)
-					else:
-						self.shoot(False)
-				elif pressed_slide==True:
-					if p_direction==True:
-						self.slide(True)
-					else:
-						self.slide(False)
-				elif pressed_space==True:
-					if p_direction==True:
-						self.jump_1(True)
-						self.jump_2(True)
-					else:
-						self.jump_1(False)
-						self.jump_2(False)
-				elif pressed_melee==True:
-					if p_direction==True:
-						self.melee(True)
-					else:
-						self.melee(False)
-				else:
-					if p_direction==True:
-						self.idle(True)
-					else:
-						self.idle(False)
-		pygame.quit()	
+			elif pressed_right==True:
+				self.move_right()
+				p_direction=True
+			elif pressed_shoot==True:
+				self.shoot( p_direction)
+			elif pressed_slide==True:
+				self.slide( p_direction)
+			elif pressed_space==True:
+				self.jump_1( p_direction)
+				self.jump_2( p_direction)
+			elif pressed_melee==True:
+				self.melee( p_direction)
+			else:
+				self.idle( p_direction)
+	
+		pygame.quit()
+		exit()
 		
-game=Game()	
+		
+		
+if __name__=='__main__':
+	game=Game()	
 
