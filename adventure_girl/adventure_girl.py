@@ -21,14 +21,16 @@ class AdventureGirl():
 	melee_count=0
 	slide_count=0
 	def __init__(self,x,y):
-		self.idle_count=6
+		self.idle_count=12
 		self.jump_count=10
+		
 		self.move_count=8
 		self.shoot_count=3
 		self.melee_count=7
 		self.slide_count=5
 		self.x=x
 		self.y=y
+		
 		w=200;h=250
 		run_l=[pygame.image.load(f"run/Run_L ({i}).png") for i in range(1,self.move_count+1)]
 		run_r=[pygame.image.load(f"run/Run_R ({i}).png") for i in range(1,self.move_count+1)]
@@ -68,153 +70,138 @@ class AdventureGirl():
 		
 		
 	def move_left(self):
+		x=self.x-4
+		if x<0:
+			return None
+		self.x=x
 		
-		for i in range(0,self.move_count):
-			self.x-=4
-			if self.x<0:
-				self.x=0
-				break	
-			pygame.time.delay(40)
-			self.window.blit(self.back_ground,(0,0))
-			self.window.blit(self.run_left[i],(self.x,self.y))
-			pygame.display.update()
+		self.window.blit(self.run_left[self.step],(self.x,self.y))
+		self.step=(self.step+1)%self.move_count
+		self.clock.tick(20)
+			
 			
 			
 	def move_right(self):
-		for i in range(0,self.move_count):
-			self.x+=4
-			if self.x>self.width-201:
-				self.x=self.width-201
-				break;
-			pygame.time.delay(40)
-			self.window.blit(self.back_ground,(0,0))
-			self.window.blit(self.run_right[i],(self.x,self.y))
-			pygame.display.update()
+		x=self.x+4
+		if x>self.width-201:
+			return None
+		self.x=x
+		
+		self.window.blit(self.run_right[self.step],(self.x,self.y))
+		self.step=(self.step+1)%self.move_count
+		self.clock.tick(20)
 		
 	def idle(self,right):
+
 			if right==True:
-				for i in range(0,self.idle_count):
-					pygame.time.delay(75)
-					self.window.blit(self.back_ground,(0,0))
-					self.window.blit(self.idle_right[i],(self.x,self.y))
-					pygame.display.update()
-					
-				for i in range(self.idle_count-1,-1):
-					pygame.time.delay(75)
-					self.window.blit(self.back_ground,(0,0))
-					self.window.blit(self.idle_right[i],(self.x,self.y))
-					pygame.display.update()
+				
+				self.window.blit(self.idle_right[self.step],(self.x,self.y))
+				self.step=(self.step+1)% self.idle_count
+				self.clock.tick(20)	
 					
 			else:
-				for i in range(0,self.idle_count):
-					pygame.time.delay(75)
-					self.window.blit(self.back_ground,(0,0))
-					self.window.blit(self.idle_left[i],(self.x,self.y))
-					pygame.display.update()
-					
-				for i in range(self.idle_count-1,-1):
-					pygame.time.delay(75)
-					self.window.blit(self.back_ground,(0,0))
-					self.window.blit(self.idle_left[i],(self.x,self.y))
-					pygame.display.update()
+
+				
+				self.window.blit(self.idle_left[self.step],(self.x,self.y))
+				self.step=(self.step+1)% self.idle_count
+				self.clock.tick(20)	
+
 
 	def jump_1(self,right):
-		if right==True:
-			for i in range(0,int(self.jump_count/2)):
-				y=self.y-14
-				x=self.x+4
+		if right==True:	
+			y=self.y-14
+			x=self.x+10
+			if x>self.width-201:
+				return None
+			self.x=x
+			self.y=y
+			
+			self.window.blit(self.jump_right[self.step],(self.x,self.y))
+			self.step=(self.step+1)%self.jump_count
+			self.clock.tick(20)	
 
-				if x>self.width-201:
-					break;
-				self.x=x;
-				self.window.blit(self.back_ground,(0,0))
-				self.window.blit(self.jump_right[i],(self.x,y))
-				pygame.display.update()	
-				pygame.time.delay(25)
 		else:
-			for i in range(0,int(self.jump_count/2)):
-					y=self.y-14
-					x=self.x-4
-					if x<0:
-						break;
-					self.x=x;
-					self.window.blit(self.back_ground,(0,0))
-					self.window.blit(self.jump_left[i],(self.x,y))
-					pygame.display.update()	
-					pygame.time.delay(25)
+			y=self.y-14
+			x=self.x-10
+			if x<0:
+				return None
+			self.x=x
+			self.y=y
+			self.window.blit(self.jump_left[self.step],(self.x,self.y))
+			self.step=(self.step+1)%self.jump_count
+			self.clock.tick(20)	
+
 			
 	def jump_2(self,right):
 		if right==True:
-			for i in range(int(self.jump_count/2),self.jump_count):
-				y=self.y+14
-				x=self.x+4
+			y=self.y+14
+			x=self.x+10
 
-				if x>self.width-201:
-					break;
-				self.x=x;
-				self.window.blit(self.back_ground,(0,0))
-				self.window.blit(self.jump_right[i],(self.x,y))
-				pygame.display.update()
-				pygame.time.delay(25)
+			if x>self.width-201:
+				return None
+			self.x=x
+			self.y=y
+			
+			self.window.blit(self.jump_right[self.step],(self.x,self.y))
+			self.step=(self.step+1)%self.jump_count
+			self.clock.tick(20)
+
 
 		else:
-			for i in range(int(self.jump_count/2),self.jump_count):
-				y=self.y+14
-				x=self.x-4
-				if x<0:
-					break;
-				self.x=x; 
-				self.window.blit(self.back_ground,(0,0))
-				self.window.blit(self.jump_left[i],(self.x,y))
-				pygame.display.update()
-				pygame.time.delay(25)
+			y=self.y+14
+			x=self.x-10
+			if x<0:
+				return None
+			self.x=x
+			self.y=y
+			
+			self.window.blit(self.jump_left[self.step],(self.x,self.y))
+			self.step=(self.step+1)%self.jump_count
+			self.clock.tick(20)
+
 	def shoot(self,right):
 		if right==True:
-			for i in range (0,self.shoot_count):
-				self.window.blit(self.back_ground,(0,0))
-				self.window.blit(self.shoot_right[i],(self.x,self.y))
-				pygame.display.update()
-				pygame.time.delay(75)
+			
+			self.window.blit(self.shoot_right[self.step],(self.x,self.y))
+			self.step=(self.step+1)%self.shoot_count
+			self.clock.tick(20)
+
 		else:
-			for i in range(0,self.shoot_count):
-				self.window.blit(self.back_ground,(0,0))
-				self.window.blit(self.shoot_left[i],(self.x,self.y))
-				pygame.display.update()
-				pygame.time.delay(75)
+			self.step=(self.step+1)%self.shoot_count
+			self.window.blit(self.shoot_left[self.step],(self.x,self.y))
+			self.clock.tick(20)
+
 				
 	def melee (self,right):
 		if right==True:
-			for i in range(0,self.melee_count):
-				self.window.blit(self.back_ground,(0,0))
-				self.window.blit(self.melee_right[i],(self.x,self.y))
-				pygame.display.update()
-				pygame.time.delay(50)
+			
+			self.window.blit(self.melee_right[self.step],(self.x,self.y))
+			self.step=(self.step+1)%self.shoot_count
+			self.clock.tick(20)
+
 		else:
-			for  i in range(0,self.melee_count):
-				self.window.blit(self.back_ground,(0,0))
-				self.window.blit(self.melee_left[i],(self.x,self.y))
-				pygame.display.update()
-				pygame.time.delay(50)
+			
+			self.window.blit(self.melee_left[self.step],(self.x,self.y))
+			self.step=(self.step+1)%self.shoot_count
+			self.clock.tick(20)
+
 	def slide(self,right):
 		y=self.y+40
 		if right==True:
-			for i in range(0,self.slide_count):
-				x=self.x+8
-				if x>self.width-201:
-					break;
-				self.x=x
-				self.window.blit(self.back_ground,(0,0))
-				self.window.blit(self.slide_right[i],(self.x,y))
-				pygame.display.update()
-				pygame.time.delay(50)
+			x=self.x+8
+			if x>self.width-201:
+				return None
+			self.x=x
+			self.window.blit(self.slide_right[self.step],(self.x,y))
+			self.step=(self.step+1)%self.slide_count
+			self.clock.tick(20)
 		else:
-			for i in range(0,self.slide_count):
-				x=self.x-4
-				if x<0:
-					break;
-				self.x=x
-				self.window.blit(self.back_ground,(0,0))
-				self.window.blit(self.slide_left[i],(self.x,y))
-				pygame.display.update()
-				pygame.time.delay(50)
+			x=self.x-8
+			if x<0:
+				return None
+			self.x=x
+			
+			self.window.blit(self.slide_left[self.step],(self.x,y))
+			self.step=(self.step+1)%self.slide_count
+			self.clock.tick(20)
 				

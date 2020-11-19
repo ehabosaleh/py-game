@@ -3,10 +3,12 @@ from adventure_girl import AdventureGirl
 from  bullet import Bullet
 from enemy import Enemy
 import threading
-class Game(AdventureGirl,Enemy):
+class Game(AdventureGirl,Enemy,Bullet):
 	
 	def __init__(self):
 		self.width, self.height= 1024,500
+		self.step=0
+		self.p_direction=True
 		pygame.init()
 		self.window=pygame.display.set_mode((self.width,self.height))
 		self.back_ground=pygame.image.load('BG.png')
@@ -14,8 +16,10 @@ class Game(AdventureGirl,Enemy):
 		pygame.display.update()
 		AdventureGirl.__init__(self,0,self.height-270)
 		Enemy.__init__(self,self.width-150,self.height-270)
+		self.clock=pygame.time.Clock()
 		t1=threading.Thread(target=self.listen)
 		t2=threading.Thread(target=self.attack)
+		
 		t1.start()
 		t2.start()
 		t1.join()
@@ -31,8 +35,9 @@ class Game(AdventureGirl,Enemy):
 		pressed_space=False
 		pressed_melee=False
 		p_direction=True
+		
 		while run:
-			
+
 			for event in pygame.event.get():
 				if event.type==pygame.QUIT:
 
@@ -65,23 +70,63 @@ class Game(AdventureGirl,Enemy):
 					elif event.key==pygame.K_RCTRL:
 						pressed_melee=False
 			if pressed_left==True:	
-				self.move_left()
-				p_direction=False
+				for i in range(0,self.move_count):
+					self.window.blit(self.back_ground,(0,0))
+					self.move_left()
+					pygame.display.update()
+				self.step=0
+				self.p_direction=False
+				
 				
 			elif pressed_right==True:
-				self.move_right()
-				p_direction=True
+				for i in range(0,self.move_count):
+					self.window.blit(self.back_ground,(0,0))
+					self.move_right()
+					pygame.display.update()
+				self.step=0
+				self.p_direction=True
 			elif pressed_shoot==True:
-				self.shoot( p_direction)
+				for i in range(0,self.shoot_count):
+					self.window.blit(self.back_ground,(0,0))	
+					self.shoot( self.p_direction)
+
+					pygame.display.update()
+				t3=threading.Thread(target=self.fire,args=(self.p_direction,self.x,self.y,))
+				t3.start()
+				t3.join	
+				self.step=0
 			elif pressed_slide==True:
-				self.slide( p_direction)
+				for i in range(0,self.slide_count):
+					self.window.blit(self.back_ground,(0,0))
+					self.slide( self.p_direction)
+					pygame.display.update()
+				self.step=0
 			elif pressed_space==True:
-				self.jump_1( p_direction)
-				self.jump_2( p_direction)
+				for i in range(0,self.jump_count//2):
+					self.window.blit(self.back_ground,(0,0))
+					self.jump_1( self.p_direction)
+					pygame.display.update()
+					
+				for i in range(self.jump_count//2,self.jump_count+1):
+					self.window.blit(self.back_ground,(0,0))
+					self.jump_2( self.p_direction)
+					pygame.display.update()
+				self.step=0
+
 			elif pressed_melee==True:
-				self.melee( p_direction)
+				for i in range(0,self.melee_count):
+					self.window.blit(self.back_ground,(0,0))
+					self.melee( self.p_direction)
+					pygame.display.update()
+				self.step=0
 			else:
-				self.idle( p_direction)
+				for i in range (0,self.idle_count):
+					
+					self.window.blit(self.back_ground,(0,0))
+					self.idle( self.p_direction)
+					
+					pygame.display.update()
+				self.step=0
 	
 		pygame.quit()
 		exit()
