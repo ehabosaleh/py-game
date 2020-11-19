@@ -1,24 +1,20 @@
+import pygame
 class Bullet():
-	x,y=0,0
+	x_b,y_b=0,0
 	width,height=0,0
-	def __init__(self,x,y,window):
-		self.x=x; self.y= y
-		self.window=window
+		
+	def fire(self,direction,x,y):
 		self.width,self.height=pygame.display.get_surface().get_size()
-	def fire(self,direction):
-		if direction== "Right":
-			while self.x<self.width-1:
-				self.x+=1
-				pygame.blit(pygame.display.get_surface(),(0,0))
-				pygame.draw.circle(self.window,(255,0,0),(self.x,self.y),1)
-				pygame.update()
-				pygame.time.delay(10)
+		self.x_b=x+100; self.y_b= y+100
+		if direction== True:		
+			while self.x_b<self.width-1 and self.x_b<self.get_position():
+				self.x_b+=70
+				pygame.draw.circle(self.window,(200,150,0),(self.x_b,self.y_b),4)
+				self.clock.tick(20)
 		else:
-			while self.x>0:
-				self.x-=1
-				pygame.blit(pygame.display.get_surface(),(0,0))
-				pygame.draw.circle(self.window,(255,0,0),(self.x,self.y),1)
-				pygame.update()
-				pygame.time.delay(10)
+			while self.x_b>0:
+				self.x_b-=1
+				pygame.draw.circle(self.window,(200,150,0),(self.x_b,self.y_b),4)
+				self.clock.tick(20)
 	
 
