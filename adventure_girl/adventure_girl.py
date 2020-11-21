@@ -20,8 +20,9 @@ class AdventureGirl():
 	shoot_count=0
 	melee_count=0
 	slide_count=0
-	def __init__(self,x,y):
-		self.idle_count=12
+	def __init__(self,x,y,window):
+		self.window=window
+		self.idle_count=2
 		self.jump_count=10
 		
 		self.move_count=8
@@ -30,7 +31,7 @@ class AdventureGirl():
 		self.slide_count=5
 		self.x=x
 		self.y=y
-		
+		self.fps=15
 		w=200;h=250
 		run_l=[pygame.image.load(f"run/Run_L ({i}).png") for i in range(1,self.move_count+1)]
 		run_r=[pygame.image.load(f"run/Run_R ({i}).png") for i in range(1,self.move_count+1)]
@@ -77,7 +78,7 @@ class AdventureGirl():
 		
 		self.window.blit(self.run_left[self.step],(self.x,self.y))
 		self.step=(self.step+1)%self.move_count
-		self.clock.tick(20)
+		self.clock.tick(self.fps)
 			
 			
 			
@@ -89,7 +90,7 @@ class AdventureGirl():
 		
 		self.window.blit(self.run_right[self.step],(self.x,self.y))
 		self.step=(self.step+1)%self.move_count
-		self.clock.tick(20)
+		self.clock.tick(self.fps)
 		
 	def idle(self,right):
 
@@ -97,19 +98,19 @@ class AdventureGirl():
 				
 				self.window.blit(self.idle_right[self.step],(self.x,self.y))
 				self.step=(self.step+1)% self.idle_count
-				self.clock.tick(20)	
+				self.clock.tick(self.fps)	
 					
 			else:
 
 				
 				self.window.blit(self.idle_left[self.step],(self.x,self.y))
 				self.step=(self.step+1)% self.idle_count
-				self.clock.tick(20)	
+				self.clock.tick(self.fps)	
 
 
 	def jump_1(self,right):
 		if right==True:	
-			y=self.y-14
+			y=self.y-10
 			x=self.x+10
 			if x>self.width-201:
 				return None
@@ -118,10 +119,10 @@ class AdventureGirl():
 			
 			self.window.blit(self.jump_right[self.step],(self.x,self.y))
 			self.step=(self.step+1)%self.jump_count
-			self.clock.tick(20)	
+			self.clock.tick(self.fps)	
 
 		else:
-			y=self.y-14
+			y=self.y-10
 			x=self.x-10
 			if x<0:
 				return None
@@ -129,12 +130,12 @@ class AdventureGirl():
 			self.y=y
 			self.window.blit(self.jump_left[self.step],(self.x,self.y))
 			self.step=(self.step+1)%self.jump_count
-			self.clock.tick(20)	
+			self.clock.tick(self.fps)	
 
 			
 	def jump_2(self,right):
 		if right==True:
-			y=self.y+14
+			y=self.y+10
 			x=self.x+10
 
 			if x>self.width-201:
@@ -144,11 +145,11 @@ class AdventureGirl():
 			
 			self.window.blit(self.jump_right[self.step],(self.x,self.y))
 			self.step=(self.step+1)%self.jump_count
-			self.clock.tick(20)
+			self.clock.tick(self.fps)
 
 
 		else:
-			y=self.y+14
+			y=self.y+10
 			x=self.x-10
 			if x<0:
 				return None
@@ -157,19 +158,19 @@ class AdventureGirl():
 			
 			self.window.blit(self.jump_left[self.step],(self.x,self.y))
 			self.step=(self.step+1)%self.jump_count
-			self.clock.tick(20)
+			self.clock.tick(self.fps)
 
 	def shoot(self,right):
 		if right==True:
 			
 			self.window.blit(self.shoot_right[self.step],(self.x,self.y))
 			self.step=(self.step+1)%self.shoot_count
-			self.clock.tick(20)
+			self.clock.tick(self.fps)
 
 		else:
 			self.step=(self.step+1)%self.shoot_count
 			self.window.blit(self.shoot_left[self.step],(self.x,self.y))
-			self.clock.tick(20)
+			self.clock.tick(self.fps)
 
 				
 	def melee (self,right):
@@ -177,13 +178,13 @@ class AdventureGirl():
 			
 			self.window.blit(self.melee_right[self.step],(self.x,self.y))
 			self.step=(self.step+1)%self.shoot_count
-			self.clock.tick(20)
+			self.clock.tick(self.fps)
 
 		else:
 			
 			self.window.blit(self.melee_left[self.step],(self.x,self.y))
 			self.step=(self.step+1)%self.shoot_count
-			self.clock.tick(20)
+			self.clock.tick(self.fps)
 
 	def slide(self,right):
 		y=self.y+40
@@ -194,7 +195,7 @@ class AdventureGirl():
 			self.x=x
 			self.window.blit(self.slide_right[self.step],(self.x,y))
 			self.step=(self.step+1)%self.slide_count
-			self.clock.tick(20)
+			self.clock.tick(self.fps)
 		else:
 			x=self.x-8
 			if x<0:
@@ -203,5 +204,5 @@ class AdventureGirl():
 			
 			self.window.blit(self.slide_left[self.step],(self.x,y))
 			self.step=(self.step+1)%self.slide_count
-			self.clock.tick(20)
+			self.clock.tick(self.fps)
 				
