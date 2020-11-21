@@ -5,8 +5,10 @@ from enemy import Enemy
 import threading
 class Game(AdventureGirl,Enemy,Bullet):
 	
-	def __init__(self):
-		self.width, self.height= 1024,500
+	def __init__(self,width,height,enemies_num):
+		self.width=width
+		self.height= height
+
 		self.step=0
 		self.p_direction=True
 		pygame.init()
@@ -14,18 +16,21 @@ class Game(AdventureGirl,Enemy,Bullet):
 		self.back_ground=pygame.image.load('BG.png')
 		self.window.blit(self.back_ground,(0,0))
 		pygame.display.update()
-		AdventureGirl.__init__(self,0,self.height-270)
-		Enemy.__init__(self,self.width-150,self.height-270)
+		AdventureGirl.__init__(self,self.width//2,self.height-270,self.window)
+		Enemy.__init__(self,self.window)
+		Bullet.__init__(self,self.width//2,self.height-270)
 		self.clock=pygame.time.Clock()
-		t1=threading.Thread(target=self.listen)
-		t2=threading.Thread(target=self.attack)
+		self.t1=threading.Thread(target=self.listen)
+		self.t1.start()
+		self.generate(enemies_num)
 		
-		t1.start()
-		t2.start()
-		t1.join()
-		t2.join()
 
-		
+	def generate(self,num):
+		for i in range (0,num):
+			t2=threading.Thread(target=self.attack)
+			t2.start()
+			t2.join()
+			
 	def listen(self):
 		run=True
 		pressed_left=False
@@ -35,9 +40,9 @@ class Game(AdventureGirl,Enemy,Bullet):
 		pressed_space=False
 		pressed_melee=False
 		p_direction=True
-		
+		i=0
 		while run:
-
+			self.x_b=self.x	
 			for event in pygame.event.get():
 				if event.type==pygame.QUIT:
 
@@ -86,6 +91,7 @@ class Game(AdventureGirl,Enemy,Bullet):
 				self.step=0
 				self.p_direction=True
 			elif pressed_shoot==True:
+
 				for i in range(0,self.shoot_count):
 					self.window.blit(self.back_ground,(0,0))	
 					self.shoot( self.p_direction)
@@ -93,8 +99,8 @@ class Game(AdventureGirl,Enemy,Bullet):
 					pygame.display.update()
 				t3=threading.Thread(target=self.fire,args=(self.p_direction,self.x,self.y,))
 				t3.start()
-				t3.join	
-				self.step=0
+				
+				
 			elif pressed_slide==True:
 				for i in range(0,self.slide_count):
 					self.window.blit(self.back_ground,(0,0))
@@ -107,7 +113,7 @@ class Game(AdventureGirl,Enemy,Bullet):
 					self.jump_1( self.p_direction)
 					pygame.display.update()
 					
-				for i in range(self.jump_count//2,self.jump_count+1):
+				for i in range(0,self.jump_count//2):
 					self.window.blit(self.back_ground,(0,0))
 					self.jump_2( self.p_direction)
 					pygame.display.update()
@@ -134,5 +140,4 @@ class Game(AdventureGirl,Enemy,Bullet):
 		
 		
 if __name__=='__main__':
-	game=Game()	
-
+	game=Game(1000,500,20)
