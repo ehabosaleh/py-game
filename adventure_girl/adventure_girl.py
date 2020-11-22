@@ -22,7 +22,7 @@ class AdventureGirl():
 	slide_count=0
 	def __init__(self,x,y,window):
 		self.window=window
-		self.idle_count=2
+		self.idle_count=1
 		self.jump_count=10
 		
 		self.move_count=8

@@ -34,7 +34,7 @@ class Enemy():
 			self.x_e=self.width-150;self.y_e=self.height-270		
 			while self.alive:
 				for i in range (0,self.walk_count):
-					if self.get_enemy_position()<=self.get_bullet_position():
+					if self.get_enemy_position()[0]<self.get_bullet_position()[0]-self.w and self.get_bullet_position()[1]>self.get_enemy_position()[1]:
 						self.alive=False;
 						self.die(direction)
 						break;	
@@ -46,11 +46,11 @@ class Enemy():
 					self.clock.tick(self.fps)
 					
 		else:	
-			self.x_e=-10;self.y_e=self.height-270
+			self.x_e=0;self.y_e=self.height-270
 			while self.alive:
 			
 				for i in range (0,self.walk_count):
-					if self.get_enemy_position()>=self.get_bullet_position()-self.w:
+					if self.get_enemy_position()[0]>self.get_bullet_position()[0]-self.w and self.get_bullet_position()[1]>self.get_enemy_position()[1]:
 						self.alive=False;
 						self.die(direction)
 						break;	
@@ -63,7 +63,7 @@ class Enemy():
 		self.alive=True		
 				
 	def get_enemy_position(self):
-		return self.x_e
+		return (self.x_e,self.y_e)
 	
 	def die(self,right):
 		if right==True:
