@@ -18,12 +18,12 @@ class Game(AdventureGirl,Enemy,Bullet):
 		pygame.display.update()
 		AdventureGirl.__init__(self,self.width//2,self.height-270,self.window)
 		Enemy.__init__(self,self.window)
-		Bullet.__init__(self,self.width//2,self.height-270)
+		Bullet.__init__(self,0,0,self.window)
 		self.clock=pygame.time.Clock()
 		self.t1=threading.Thread(target=self.listen)
 		self.t1.start()
 		self.generate(enemies_num)
-		
+		self.t1.join()
 
 	def generate(self,num):
 		for i in range (0,num):
@@ -42,7 +42,7 @@ class Game(AdventureGirl,Enemy,Bullet):
 		p_direction=True
 		i=0
 		while run:
-			self.x_b=self.x	
+			
 			for event in pygame.event.get():
 				if event.type==pygame.QUIT:
 
