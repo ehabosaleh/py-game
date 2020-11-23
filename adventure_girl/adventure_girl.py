@@ -2,24 +2,7 @@ import pygame
 import sys
 class AdventureGirl():
 	(x,y)=(0,0)
-	run_left=[]
-	run_right=[]
-	jump_left=[]
-	jump_right=[]
-	shoot_left=[]
-	shoot_right=[]
-	slide_left=[]
-	slide_right=[]
-	melee_left=[]
-	melee_right=[]
-	idle_left=[]
-	idle_rigt=[]
-	idle_count=0
-	jump_count=0
-	move_count=0
-	shoot_count=0
-	melee_count=0
-	slide_count=0
+	width,height=0,0
 	def __init__(self,x,y,window):
 		self.window=window
 		self.idle_count=1
@@ -27,7 +10,6 @@ class AdventureGirl():
 		
 		self.move_count=8
 		self.shoot_count=3
-		self.melee_count=7
 		self.slide_count=5
 		self.x=x
 		self.y=y
@@ -49,12 +31,6 @@ class AdventureGirl():
 		self.shoot_right=[pygame.transform.scale(image,(w,h)) for image in shoot_r]
 		w=200;h=250
 		
-		melee_l=[pygame.image.load(f"melee/Melee_L ({i}).png") for i in range(1,self.melee_count+1)]
-		melee_r=[pygame.image.load(f"melee/Melee_R ({i}).png") for i in range(1,self.melee_count+1)]
-		self.melee_left=[pygame.transform.scale(image,(w,h)) for image in melee_l]
-		self.melee_right=[pygame.transform.scale(image,(w,h)) for image in melee_r]
-		
-
 		
 		idle_l=[pygame.image.load(f"idle/Idle_L ({i}).png") for i in range(1,self.idle_count+1)]
 		idle_r=[pygame.image.load(f"idle/Idle_R ({i}).png") for i in range(1,self.idle_count+1)]
@@ -75,7 +51,6 @@ class AdventureGirl():
 		if x<0:
 			return None
 		self.x=x
-		
 		self.window.blit(self.run_left[self.step],(self.x,self.y))
 		self.step=(self.step+1)%self.move_count
 		self.clock.tick(self.fps)
@@ -87,7 +62,6 @@ class AdventureGirl():
 		if x>self.width-201:
 			return None
 		self.x=x
-		
 		self.window.blit(self.run_right[self.step],(self.x,self.y))
 		self.step=(self.step+1)%self.move_count
 		self.clock.tick(self.fps)
@@ -98,8 +72,7 @@ class AdventureGirl():
 				
 				self.window.blit(self.idle_right[self.step],(self.x,self.y))
 				self.step=(self.step+1)% self.idle_count
-				self.clock.tick(self.fps)	
-					
+				self.clock.tick(self.fps)			
 			else:
 
 				
@@ -173,18 +146,6 @@ class AdventureGirl():
 			self.clock.tick(self.fps)
 
 				
-	def melee (self,right):
-		if right==True:
-			
-			self.window.blit(self.melee_right[self.step],(self.x,self.y))
-			self.step=(self.step+1)%self.shoot_count
-			self.clock.tick(self.fps)
-
-		else:
-			
-			self.window.blit(self.melee_left[self.step],(self.x,self.y))
-			self.step=(self.step+1)%self.shoot_count
-			self.clock.tick(self.fps)
 
 	def slide(self,right):
 		y=self.y+40

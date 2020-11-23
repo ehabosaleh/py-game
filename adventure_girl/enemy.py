@@ -1,18 +1,15 @@
 import pygame
 import random
+from bullet import Bullet
 class Enemy():
-	x_e=0;y_e=0
-	walk_count=0
-	walk_left=[]
-	life=0
+	x_e,y_e=0,0
 	width,height=0,0
-	hit=False
 	def __init__(self,window):
 		self.life=5
 		self.walk_count=10
 		self.dead_count=8
 		self.enemy_step=0
-		self.fps=10
+		self.fps=15
 		self.window=window
 		(self.w,self.h)=(200,250)
 		walk_l=[pygame.image.load(f"enemy_walk/Walk_L ({i}).png") for i in range(1,self.walk_count+1)]
@@ -26,6 +23,8 @@ class Enemy():
 		self.dead_right=[pygame.transform.scale(image,(self.w,self.h)) for image in dead_r]
 		
 		self.width,self.height=pygame.display.get_surface().get_size()
+	def get_bullet_position(self):
+		return Bullet.get_bullet_position(self)
 	def attack(self):
 		self.alive=True
 		direction =random.choice([True,False])

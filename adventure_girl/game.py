@@ -3,8 +3,8 @@ from adventure_girl import AdventureGirl
 from  bullet import Bullet
 from enemy import Enemy
 import threading
+import random
 class Game(AdventureGirl,Enemy,Bullet):
-	
 	def __init__(self,width,height,enemies_num):
 		self.width=width
 		self.height= height
@@ -16,7 +16,7 @@ class Game(AdventureGirl,Enemy,Bullet):
 		self.back_ground=pygame.image.load('BG.png')
 		self.window.blit(self.back_ground,(0,0))
 		pygame.display.update()
-		AdventureGirl.__init__(self,self.width//2,self.height-270,self.window)
+		AdventureGirl.__init__(self,self.width//2-200,self.height-270,self.window)
 		Enemy.__init__(self,self.window)
 		Bullet.__init__(self,0,0,self.window)
 		self.clock=pygame.time.Clock()
@@ -27,9 +27,12 @@ class Game(AdventureGirl,Enemy,Bullet):
 
 	def generate(self,num):
 		for i in range (0,num):
+			
 			t2=threading.Thread(target=self.attack)
 			t2.start()
 			t2.join()
+			
+
 			
 	def listen(self):
 		run=True
@@ -38,7 +41,7 @@ class Game(AdventureGirl,Enemy,Bullet):
 		pressed_shoot=False
 		pressed_slide=False
 		pressed_space=False
-		pressed_melee=False
+
 		p_direction=True
 		i=0
 		while run:
@@ -59,8 +62,6 @@ class Game(AdventureGirl,Enemy,Bullet):
 						pressed_shoot=True
 					elif event.key==pygame.K_z:
 						pressed_slide=True
-					elif event.key==pygame.K_RCTRL:
-						pressed_melee=True
 				elif event.type==pygame.KEYUP:
 					if event.key==pygame.K_LEFT:
 						pressed_left=False
@@ -72,8 +73,6 @@ class Game(AdventureGirl,Enemy,Bullet):
 						pressed_shoot=False
 					elif event.key==pygame.K_z:
 						pressed_slide=False
-					elif event.key==pygame.K_RCTRL:
-						pressed_melee=False
 			if pressed_left==True:	
 				for i in range(0,self.move_count):
 					self.window.blit(self.back_ground,(0,0))
@@ -119,12 +118,6 @@ class Game(AdventureGirl,Enemy,Bullet):
 					pygame.display.update()
 				self.step=0
 
-			elif pressed_melee==True:
-				for i in range(0,self.melee_count):
-					self.window.blit(self.back_ground,(0,0))
-					self.melee( self.p_direction)
-					pygame.display.update()
-				self.step=0
 			else:
 				for i in range (0,self.idle_count):
 					
@@ -139,5 +132,6 @@ class Game(AdventureGirl,Enemy,Bullet):
 		
 		
 		
-if __name__=='__main__':
-	game=Game(1000,500,20)
+if __name__=='__main__':	
+		game=Game(1000,500,20)
+
