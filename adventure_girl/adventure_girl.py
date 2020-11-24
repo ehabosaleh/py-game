@@ -47,7 +47,7 @@ class AdventureGirl():
 		
 		
 	def move_left(self):
-		x=self.x-4
+		x=self.x-10
 		if x<0:
 			return None
 		self.x=x
@@ -58,7 +58,7 @@ class AdventureGirl():
 			
 			
 	def move_right(self):
-		x=self.x+4
+		x=self.x+10
 		if x>self.width-201:
 			return None
 		self.x=x

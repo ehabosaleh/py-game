@@ -14,16 +14,22 @@ class Bullet():
 	def fire(self,direction,x,y):
 		self.x_b=x+100; self.y_b= y+125
 		if direction== True:		
-			while self.x_b<self.width-1 and self.alive==True:
-				self.x_b+=10
+			while self.x_b<self.width-1:
+				if self.hit==True:
+					break;
+					
+				self.x_b+=50
 				self.window.blit(self.projectile_1,(self.x_b,self.y_b))
-				self.clock.tick(100)
+				self.clock.tick(15)
 		else:
-			while self.x_b>0 and self.alive ==True: 
-				self.x_b-=10
+			while self.x_b>0:
+				if self.hit==True:
+					break;
+				self.x_b-=50
 				self.window.blit(self.projectile_2,(self.x_b,self.y_b))
-				self.clock.tick(100)
-		self.y_b=0		
+				self.clock.tick(15)
+		self.y_b=-100
+		self.hit=False
 				
 	def get_bullet_position(self):
 		return (self.x_b,self.y_b)
