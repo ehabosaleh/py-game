@@ -9,7 +9,9 @@ class Enemy():
 		self.walk_count=10
 		self.dead_count=8
 		self.enemy_step=0
+		self.score=0
 		self.fps=15
+		self.hit=False	
 		self.window=window
 		(self.w,self.h)=(200,250)
 		walk_l=[pygame.image.load(f"enemy_walk/Walk_L ({i}).png") for i in range(1,self.walk_count+1)]
@@ -26,41 +28,50 @@ class Enemy():
 	def get_bullet_position(self):
 		return Bullet.get_bullet_position(self)
 	def attack(self):
-		self.alive=True
+		alive=True
 		direction =random.choice([True,False])
+		health=100
 		
 		if direction==True:
-			self.x_e=self.width-150;self.y_e=self.height-270		
-			while self.alive:
+			self.x_e=self.width-150;self.y_e=self.height-270
+					
+			while alive:
+				
 				for i in range (0,self.walk_count):
-					if self.get_enemy_position()[0]<self.get_bullet_position()[0]-self.w and self.get_bullet_position()[1]>self.get_enemy_position()[1]:
-						self.alive=False;
-						self.die(direction)
-						break;	
+					if self.get_enemy_position()[0]<self.get_bullet_position()[0] and self.get_bullet_position()[1]>self.get_enemy_position()[1]:
+						health-=10
+						self.hit=True
+						if health==0:
+							alive=False
+							self.die(direction)
+							break;	
 					x=self.x_e-4
-					if x<0:
+					if x<self.x+20:
 						return None;
 					self.x_e=x
+					pygame.draw.rect(self.window,(150-health,100+health,0),(self.x_e+40,self.y_e,health,10))
 					self.window.blit(self.walk_left[i],(self.x_e,self.y_e))
 					self.clock.tick(self.fps)
 					
 		else:	
 			self.x_e=0;self.y_e=self.height-270
-			while self.alive:
-			
+			while alive:
 				for i in range (0,self.walk_count):
 					if self.get_enemy_position()[0]>self.get_bullet_position()[0]-self.w and self.get_bullet_position()[1]>self.get_enemy_position()[1]:
-						self.alive=False;
-						self.die(direction)
-						break;	
+						health-=10
+						self.hit=True
+						if health==0:
+							alive=False
+							self.die(direction)
+							break;	
 					x=self.x_e+4
-					if x>self.width-201:
+					if x>self.x:
 						return None
 					self.x_e=x
+					pygame.draw.rect(self.window,(150-health,100+health,0),(self.x_e+40,self.y_e,health,10))
 					self.window.blit(self.walk_right[i],(self.x_e,self.y_e))
-					self.clock.tick(self.fps)			
-		self.alive=True		
-				
+					self.clock.tick(self.fps)
+
 	def get_enemy_position(self):
 		return (self.x_e,self.y_e)
 	
@@ -69,11 +80,12 @@ class Enemy():
 			for i in range (0,self.dead_count):	
 				self.window.blit(self.dead_left[i],(self.x_e,self.y_e))
 				self.clock.tick(self.fps)
+				
 
 
 		else:		
 			for i in range (0,self.dead_count):	
 				self.window.blit(self.dead_right[i],(self.x_e,self.y_e))
 				self.clock.tick(self.fps)
-
+		self.score+=1
 
