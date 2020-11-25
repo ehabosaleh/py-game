@@ -2,7 +2,6 @@ import pygame
 import random
 from bullet import Bullet
 class Enemy():
-	x_e,y_e=0,0
 	width,height=0,0
 	def __init__(self,window):
 		self.life=5
@@ -13,6 +12,7 @@ class Enemy():
 		self.fps=15
 		self.hit=False	
 		self.window=window
+		self.enemy_walk=pygame.mixer.Sound('walking On Gravel.wav')
 		(self.w,self.h)=(200,250)
 		walk_l=[pygame.image.load(f"enemy_walk/Walk_L ({i}).png") for i in range(1,self.walk_count+1)]
 		walk_r=[pygame.image.load(f"enemy_walk/Walk_R ({i}).png") for i in range(1,self.walk_count+1)]
@@ -34,7 +34,7 @@ class Enemy():
 		
 		if direction==True:
 			self.x_e=self.width-150;self.y_e=self.height-270
-					
+			self.enemy_walk.play()		
 			while alive:
 				
 				for i in range (0,self.walk_count):
@@ -42,6 +42,7 @@ class Enemy():
 						health-=10
 						self.hit=True
 						if health==0:
+							self.enemy_walk.stop()
 							alive=False
 							self.die(direction)
 							break;	
@@ -53,7 +54,8 @@ class Enemy():
 					self.window.blit(self.walk_left[i],(self.x_e,self.y_e))
 					self.clock.tick(self.fps)
 					
-		else:	
+		else:				
+			self.enemy_walk.play()		
 			self.x_e=0;self.y_e=self.height-270
 			while alive:
 				for i in range (0,self.walk_count):
@@ -61,6 +63,7 @@ class Enemy():
 						health-=10
 						self.hit=True
 						if health==0:
+							self.enemy_walk.stop()
 							alive=False
 							self.die(direction)
 							break;	
